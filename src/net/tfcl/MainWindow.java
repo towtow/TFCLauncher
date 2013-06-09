@@ -591,9 +591,18 @@ public class MainWindow
 		String maxMemArg = "-Xmx" + settings.getMaxMemAlloc() + "M";
 		String minMemArg = "-Xms" + settings.getMinMemAlloc() + "M";
 		
-		ProcessBuilder procBuilder = new ProcessBuilder("java", 
-				maxMemArg, minMemArg, "-cp", jarPath, "net.tfcl.GameLauncher",
-				sessionInfo.getUsername(), sessionInfo.getSessionID(), installDir);
+            ProcessBuilder procBuilder = new ProcessBuilder("java",
+                    "-Xms512M",
+                    "-Xmx1024M",
+                    "-XX:+UseConcMarkSweepGC",
+                    "-XX:+CMSIncrementalMode",
+                    "-XX:+AggressiveOpts",
+                    "-XX:+CMSClassUnloadingEnabled",
+                    "-XX:MaxPermSize=128m",
+                    "-cp",
+                    jarPath,
+                    "net.tfcl.GameLauncher",
+                    sessionInfo.getUsername(), sessionInfo.getSessionID(), installDir);
 		procBuilder.redirectErrorStream(true);
 		try
 		{
